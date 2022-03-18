@@ -32,8 +32,8 @@ class CoordinateControllerTest {
         Iterable<Coordinates> allCoordinates = controller.getAllCoordinates();
         int countBefore = ((Collection<Coordinates>) allCoordinates).size();
         //test
-        Coordinates coordinates = new Coordinates(2, 3);
-        controller.addCoordinates(coordinates);
+        String coordinatesStr = "{\"latitude\":2, \"longitude\":3}";
+        controller.addCoordinates(coordinatesStr);
         //assert
         allCoordinates = controller.getAllCoordinates();
         assertEquals(countBefore+1, ((Collection<Coordinates>) allCoordinates).size());
@@ -45,7 +45,7 @@ class CoordinateControllerTest {
         Iterable<Coordinates> allCoordinates = controller.getAllCoordinates();
         int countBefore = ((Collection<Coordinates>) allCoordinates).size();
         //test
-        controller.addCoordinatesWithDetail(2, 3);
+        controller.addCoordinatesWithDetail("2", "3");
         //assert
         allCoordinates = controller.getAllCoordinates();
         assertEquals(countBefore+1, ((Collection<Coordinates>) allCoordinates).size());

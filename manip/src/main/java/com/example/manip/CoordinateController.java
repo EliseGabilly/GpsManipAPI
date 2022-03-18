@@ -1,9 +1,13 @@
 package com.example.manip;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,13 +29,26 @@ public class CoordinateController {
     }
 
     @PostMapping("/add")
-    public void addCoordinates(@RequestBody Coordinates coordinates) {
-        coordinateRepository.save(coordinates);
+    public void addCoordinates(@RequestBody String coordinatesStr)  {
+        ObjectMapper mapper = new ObjectMapper();
+
+        Coordinates coordinates;
+        try{
+            coordinates = mapper.reader().forType(Coordinates.class).readValue(coordinatesStr);
+            coordinateRepository.save(coordinates);
+        } catch (JsonProcessingException ignored){
+        }
     }
 
     @PostMapping("/add_detail")
-    public void addCoordinatesWithDetail(@RequestParam double latitude, @RequestParam double longitude) {
-        coordinateRepository.save(new Coordinates(latitude, longitude));
+    public void addCoordinatesWithDetail(@RequestParam String latitude, @RequestParam String longitude) {
+        double latitudeVal = 0, longitudeVal = 0;
+        try{
+            latitudeVal = Double.parseDouble(latitude);
+            longitudeVal = Double.parseDouble(longitude);
+        } catch (NumberFormatException ignored){
+        }
+        coordinateRepository.save(new Coordinates(latitudeVal, longitudeVal));
     }
 
     @DeleteMapping("/del/{id}")
@@ -56,9 +73,18 @@ public class CoordinateController {
     @GetMapping(path="/comp")
     @ResponseBody
     @ResponseStatus( HttpStatus.OK )
-    public ResponseEntity<String> compareCoordinatesWithDetail(@RequestParam double start_lat, @RequestParam double start_long,
-                                                     @RequestParam double end_lat, @RequestParam double end_long) {
-        double distance = Utils.distance(start_lat, start_long, end_lat, end_long);
+    public ResponseEntity<String> compareCoordinatesWithDetail(@RequestParam String start_lat, @RequestParam String start_long,
+                                                     @RequestParam String end_lat, @RequestParam String end_long) {
+        double startLat, startLong, endLat, endLong;
+        try{
+            startLat = Double.parseDouble(start_lat);
+            startLong = Double.parseDouble(start_long);
+            endLat = Double.parseDouble(end_lat);
+            endLong = Double.parseDouble(end_long);
+        } catch (NumberFormatException e){
+            return new ResponseEntity<>("{\"responce\" : \"NumberFormatException\" }", HttpStatus.OK);
+        }
+        double distance = Utils.distance(startLat, startLong, endLat, endLong);
         boolean isClose = distance<=10;
         return new ResponseEntity<>("{\"is_close\" : "+isClose+", \"distance\" : "+distance+" }", HttpStatus.OK);
     }
