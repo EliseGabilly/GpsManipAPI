@@ -12,7 +12,6 @@ export class CoordListComponent implements OnInit {
   coords: Coordinates[];
 
   constructor(private coordinatesService: CoordinatesService) {
-
   }
 
   ngOnInit() {
@@ -20,6 +19,10 @@ export class CoordListComponent implements OnInit {
       this.coords = data;
       console.log(data);
     });
+  }
+
+  onDel(coord : any) {
+    this.coordinatesService.delete(coord).subscribe((data) => {this.ngOnInit();} );
   }
 
 }

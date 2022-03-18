@@ -6,6 +6,7 @@
         <th scope="col">#</th>
         <th scope="col">Latitude</th>
         <th scope="col">Longitude</th>
+        <th scope="col"> </th>
       </tr>
       </thead>
       <tbody>
@@ -13,6 +14,7 @@
         <td>{{ coord.id }}</td>
         <td>{{ coord.latitude }}</td>
         <td>{{ coord.longitude }}</td>
+        <td><button type="button" class="btn btn-danger" (click)="onDel(coord)">Del</button></td>
       </tr>
       </tbody>
     </table>

@@ -22,5 +22,13 @@ export class CoordinatesService {
     return this.http.post<Coordinates>(this.baseUrl+"add", coord);
   }
 
+  public delete(coord: Coordinates) {
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
+    return this.http.delete<Coordinates>(this.baseUrl+"del\\"+coord.id, options);
+  }
 
 }
