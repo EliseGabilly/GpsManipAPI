@@ -18,5 +18,9 @@ export class CoordinatesService {
     return this.http.get<Coordinates[]>(this.baseUrl+"all");
   }
 
+  public save(coord: Coordinates) {
+    return this.http.post<Coordinates>(this.baseUrl+"add", coord);
+  }
+
 
 }

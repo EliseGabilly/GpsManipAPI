@@ -1,1 +1,28 @@
-<p>coord-form works!</p>
+<div class="card my-5">
+  <div class="card-body">
+    <form (ngSubmit)="onSubmit()" #coordForm="ngForm">
+      <div class="form-group">
+        <label for="latitude">Latitude</label>
+        <input type="text" [(ngModel)]="coord.latitude"
+               class="form-control"
+               id="latitude"
+               name="latitude"
+               placeholder="Enter latitude"
+               required #latitude="ngModel">
+        <div [hidden]="!latitude.pristine" class="alert alert-danger">Required</div>
+      </div>
+      <div class="form-group">
+        <label for="longitude">Email</label>
+        <input type="text" [(ngModel)]="coord.longitude"
+               class="form-control"
+               id="longitude"
+               name="longitude"
+               placeholder="Enter longitude"
+               required #longitude="ngModel">
+        <div [hidden]="!longitude.pristine" class="alert alert-danger">Required</div>
+      </div>
+      <button type="submit" [disabled]="!coordForm.form.valid"
+              class="btn btn-info">Submit</button>
+    </form>
+  </div>
+</div>
