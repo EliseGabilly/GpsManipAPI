@@ -1,1 +1,52 @@
-<p>coord-comp works!</p>
+<div class="card my-5">
+  <div class="card-body">
+    <form (ngSubmit)="onCompare()" #compareForm="ngForm">
+      <label><b>Start</b></label>
+      <div class="form-group">
+        <label for="start-lat">Latitude</label>
+        <input type="text"
+               class="form-control"
+               id="start-lat"
+               name="start-lat"
+               [(ngModel)]="classReference.start_lat"
+               required #name="ngModel"
+               readonly>
+      </div>
+      <div class="form-group">
+        <label for="start-long">Longitude</label>
+        <input type="text"
+               class="form-control"
+               id="start-long"
+               name="start-long"
+               [(ngModel)]="classReference.start_long"
+               required #name="ngModel"
+               readonly>
+      </div>
+
+      <label><b>End</b></label>
+      <div class="form-group">
+        <label for="end-lat">Latitude</label>
+        <input type="text"
+               class="form-control"
+               id="end-lat"
+               name="end-lat"
+               [(ngModel)]="classReference.end_lat"
+               required #name="ngModel"
+               readonly>
+      </div>
+      <div class="form-group">
+        <label for="end-long">Longitude</label>
+        <input type="text"
+               class="form-control"
+               id="end-long"
+               name="end-long"
+               [(ngModel)]="classReference.end_long"
+               required #name="ngModel"
+               readonly>
+      </div>
+
+      <button type="submit" class="btn btn-info">Compare</button>
+    </form>
+    <div class="card-body" id="form-comparison-res">{{classReference.res}}</div>
+  </div>
+</div>

@@ -7,6 +7,8 @@
         <th scope="col">Latitude</th>
         <th scope="col">Longitude</th>
         <th scope="col"> </th>
+        <th scope="col">Start </th>
+        <th scope="col">End </th>
       </tr>
       </thead>
       <tbody>
@@ -15,6 +17,8 @@
         <td>{{ coord.latitude }}</td>
         <td>{{ coord.longitude }}</td>
         <td><button type="button" class="btn btn-danger" (click)="onDel(coord)">Del</button></td>
+        <td><button type="button" class="btn btn-secondary" (click)="onFromStart(coord)">From</button></td>
+        <td><button type="button" class="btn btn-secondary" (click)="onToEnd(coord)">To</button></td>
       </tr>
       </tbody>
     </table>

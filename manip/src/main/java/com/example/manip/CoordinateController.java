@@ -44,7 +44,7 @@ public class CoordinateController {
         return response;
     }
 
-    @GetMapping(path="/comp")
+    @GetMapping(path="/comp_detail")
     @ResponseBody
     @ResponseStatus( HttpStatus.OK )
     public ResponseEntity<String> compareCoordinates(@RequestParam Coordinates start_coord, @RequestParam Coordinates end_coord) {
@@ -53,7 +53,7 @@ public class CoordinateController {
         return new ResponseEntity<>("{\"is_close\" : "+isClose+", \"distance\" : "+distance+" }", HttpStatus.OK);
     }
 
-    @GetMapping(path="/comp_detail")
+    @GetMapping(path="/comp")
     @ResponseBody
     @ResponseStatus( HttpStatus.OK )
     public ResponseEntity<String> compareCoordinatesWithDetail(@RequestParam double start_lat, @RequestParam double start_long,
