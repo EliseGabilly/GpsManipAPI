@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Coordinates } from '../model/coordinates'
+import { CoordinatesService } from '../service/coordinates.service';
 
 @Component({
   selector: 'app-coord-list',
@@ -7,9 +9,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CoordListComponent implements OnInit {
 
-  constructor() { }
+  coords: Coordinates[];
 
-  ngOnInit(): void {
+  constructor(private coordinatesService: CoordinatesService) {
+
+  }
+
+  ngOnInit() {
+    this.coordinatesService.findAll().subscribe((data : any) => {
+      this.coords = data;
+      console.log(data);
+    });
   }
 
 }

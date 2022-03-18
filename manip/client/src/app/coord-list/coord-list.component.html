@@ -1,1 +1,20 @@
-<p>coord-list works!</p>
+<div class="card my-5">
+  <div class="card-body">
+    <table class="table table-bordered table-striped">
+      <thead class="thead-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Latitude</th>
+        <th scope="col">Longitude</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let coord of coords">
+        <td>{{ coord.id }}</td>
+        <td>{{ coord.latitude }}</td>
+        <td>{{ coord.longitude }}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

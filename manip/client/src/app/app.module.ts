@@ -8,6 +8,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { CoordListComponent } from './coord-list/coord-list.component';
 import { CoordFormComponent } from './coord-form/coord-form.component';
 import { CoordCompComponent } from './coord-comp/coord-comp.component';
+import { CoordinatesService } from './service/coordinates.service';
 
 
 @NgModule({
@@ -23,7 +24,7 @@ import { CoordCompComponent } from './coord-comp/coord-comp.component';
     HttpClientModule,
     FormsModule
   ],
-  providers: [],
+  providers: [CoordinatesService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
