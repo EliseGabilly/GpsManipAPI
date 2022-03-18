@@ -3,6 +3,9 @@ package com.example.manip;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
 public class CoordinateController {
@@ -29,5 +32,14 @@ public class CoordinateController {
         coordinateRepository.save(new Coordinates(latitude, longitude));
     }
 
+    @DeleteMapping("/del/{id}")
+    public Map<String, Boolean> deleteCoordinate(@PathVariable(value = "id") Long id) throws Exception {
+        Coordinates coordinates = coordinateRepository.findById(id)
+                .orElseThrow(() -> new Exception("Coordinates not found for this id :: " + id));
+        coordinateRepository.delete(coordinates);
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("deleted", Boolean.TRUE);
+        return response;
+    }
 
 }
