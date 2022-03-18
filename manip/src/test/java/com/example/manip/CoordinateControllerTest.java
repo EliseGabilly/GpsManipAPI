@@ -1,17 +1,15 @@
 package com.example.manip;
 
 import static org.assertj.core.api.Assertions.assertThat;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.http.ResponseEntity;
 
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -40,6 +38,15 @@ class CoordinateControllerTest {
     }
 
     @Test
+    void addCoordinates_catch() {
+        //init
+        ObjectMapper mapper = new ObjectMapper();
+        String coordinatesStr = "{\"latitude\":bla, \"longitude\":bla}";
+        //test
+        assertThrows(JsonProcessingException.class, () -> mapper.reader().forType(Coordinates.class).readValue(coordinatesStr));
+    }
+
+    @Test
     void addCoordinatesWithDetail() {
         //init
         Iterable<Coordinates> allCoordinates = controller.getAllCoordinates();
@@ -65,10 +72,35 @@ class CoordinateControllerTest {
 
     @Test
     void deleteCoordinate_throw() {
-        //init
-        Iterable<Coordinates> allCoordinates = controller.getAllCoordinates();
         //test
         Exception exception = assertThrows(Exception.class, () -> controller.deleteCoordinate((long)999));
         assertEquals("Coordinates not found for this id :: " + 999, exception.getMessage());
+    }
+
+    @Test
+    void compareCoordinatesWithDetail_valid_close() {
+        ResponseEntity<String> stringResponseEntity = controller.compareCoordinatesWithDetail("2", "2", "2", "2");
+
+        String expected = "{\"is_close\" : true, \"distance\" : 0.0 }";
+        assertEquals(expected, stringResponseEntity.getBody());
+        assertEquals(200, stringResponseEntity.getStatusCodeValue());
+    }
+
+    @Test
+    void compareCoordinatesWithDetail_valid_far() {
+        ResponseEntity<String> stringResponseEntity = controller.compareCoordinatesWithDetail("2", "2", "3", "3");
+
+        String expected = "{\"is_close\" : false, \"distance\" : 157.17755181464074 }";
+        assertEquals(expected, stringResponseEntity.getBody());
+        assertEquals(200, stringResponseEntity.getStatusCodeValue());
+    }
+
+    @Test
+    void compareCoordinatesWithDetail_catch() {
+        ResponseEntity<String> stringResponseEntity = controller.compareCoordinatesWithDetail("b", "o", "b", "y");
+
+        String expected = "{\"responce\" : \"NumberFormatException\" }";
+        assertEquals(expected, stringResponseEntity.getBody());
+        assertEquals(200, stringResponseEntity.getStatusCodeValue());
     }
 }
